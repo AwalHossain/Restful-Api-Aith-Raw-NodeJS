@@ -7,7 +7,7 @@ const server = http.createServer();
 server.on('request' , (req,res)=>{
     res.statusCode  = 200;
     res.setHeader('Content-type', "text/plain")
-    res.end("hello htere");
+    res.end("Sever is started with raw nodejs");
 })
 
 
