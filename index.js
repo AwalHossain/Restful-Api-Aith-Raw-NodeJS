@@ -17,6 +17,7 @@ const server = http.createServer((req,res)=>{
 
   // Get the path
   var path = parsedUrl.pathname;
+  var queryStringObject = parsedUrl.query;
   var trimmedPath = path.replace(/^\/+|\/+$/g, '');
 
 //   get the http method
@@ -39,11 +40,32 @@ const server = http.createServer((req,res)=>{
       buffer += decoder.end();
       
       // check the router for a matching path for a handler. If one is not found, use not found instead
-      var chosenHandler = typeof(router[trimmedPath] !== 'undefined')
+      var chosenHandler = typeof(router[trimmedPath]) !== 'undefined' ? router[trimmedPath]: handlers.notFound;
 
-    // Send the response
-    res.end('Hello World!\n');
-    console.log(buffer , "pars");
+      // construct the data object to send to the handler
+      var data ={
+        'trimmedPath': trimmedPath,
+        'queryStringObject': queryStringObject,
+        'method': method,
+        'payload': buffer,
+        'headers': headers
+      }
+
+      chosenHandler(data, function(statusCode, payload){
+        statusCode = typeof(statusCode) == 'number'? statusCode:200;
+        
+        // use the payload returned from the handler 
+        payload = typeof(payload) == 'object' ? payload : {};
+
+        // convert the paylaod to a string 
+
+        var paylaodString = JSON.stringify(payload);
+
+        // send the response
+        res.writeHead(statusCode).end(paylaodString)
+
+
+      })
 
 
     })
