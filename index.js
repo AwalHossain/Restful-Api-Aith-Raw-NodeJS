@@ -17,12 +17,13 @@ const server = http.createServer((req,res)=>{
 
   // Get the path
   var path = parsedUrl.pathname;
+  var queryStringObject = parsedUrl.query;
   var trimmedPath = path.replace(/^\/+|\/+$/g, '');
 
 //   get the http method
 
     var method = req.method.toLowerCase();
-
+    var headers = req.headers;
     // get the payload, if any
 
     const decoder = new StringDecoder('utf-8');
@@ -37,11 +38,34 @@ const server = http.createServer((req,res)=>{
     req.on('end', ()=>{
 
       buffer += decoder.end();
-    var headers = req.headers;
+      
+      // check the router for a matching path for a handler. If one is not found, use not found instead
+      var chosenHandler = typeof(router[trimmedPath]) !== 'undefined' ? router[trimmedPath]: handlers.notFound;
 
-    // Send the response
-    res.end('Hello World!\n');
-    console.log(buffer , "pars");
+      // construct the data object to send to the handler
+      var data ={
+        'trimmedPath': trimmedPath,
+        'queryStringObject': queryStringObject,
+        'method': method,
+        'payload': buffer,
+        'headers': headers
+      }
+
+      chosenHandler(data, function(statusCode, payload){
+        statusCode = typeof(statusCode) == 'number'? statusCode:200;
+        
+        // use the payload returned from the handler 
+        payload = typeof(payload) == 'object' ? payload : {};
+
+        // convert the paylaod to a string 
+
+        var paylaodString = JSON.stringify(payload);
+
+        // send the response
+        res.writeHead(statusCode).end(paylaodString)
+
+
+      })
 
 
     })
@@ -59,3 +83,24 @@ const server = http.createServer((req,res)=>{
 server.listen(3000, ()=>{
 console.log("the serving is running on...");
 })
+
+
+var handlers = {};
+
+// sample handler
+
+handlers.sample = function(data, callBack){
+
+  callBack(200,{"name":"Sample handler"})
+}
+
+handlers.notFound = function(data, callBack){
+  callBack(404);
+}
+
+
+// define the request router 
+
+var router = {
+  'sample': handlers.sample
+}
