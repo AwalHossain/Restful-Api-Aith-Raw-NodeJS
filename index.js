@@ -40,8 +40,8 @@ const server = http.createServer((req,res)=>{
       buffer += decoder.end();
       
       // check the router for a matching path for a handler. If one is not found, use not found instead
-      var chosenHandler = typeof(router[trimmedPath]) !== 'undefined' ? router[trimmedPath]: handlers.notFound;
-
+      var chosenHandler = typeof(router[trimmedPath]) !== 'undefined' ? router[trimmedPath]: handler.notFound;
+      // console.log(chosenHandler,"ho");
       // construct the data object to send to the handler
       var data ={
         'trimmedPath': trimmedPath,
@@ -68,6 +68,9 @@ const server = http.createServer((req,res)=>{
       })
 
 
+
+
+
     })
 
 
@@ -85,22 +88,23 @@ console.log("the serving is running on...");
 })
 
 
-var handlers = {};
+var handler = {
 
-// sample handler
-
-handlers.sample = function(data, callBack){
-
-  callBack(200,{"name":"Sample handler"})
 }
 
-handlers.notFound = function(data, callBack){
-  callBack(404);
+handler.sample = function(data, callBack){
+  callBack(200,{"name":"Hello there! Welcome here"})
+}
+
+handler.notFound = function(data, callBack){
+  callBack(404,{"error":"Sorry it's not found"})
 }
 
 
 // define the request router 
 
 var router = {
-  'sample': handlers.sample
+  sample: handler.sample
 }
+
+
