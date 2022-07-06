@@ -8,6 +8,7 @@
 
 const http = require('http');
 const url = require('url');
+const config = require('./config')
 var {StringDecoder} = require('string_decoder');
 
 
@@ -84,8 +85,8 @@ const server = http.createServer((req,res)=>{
 // server.on('request' , )
 
 
-server.listen(3000, ()=>{
-console.log("the serving is running on...");
+server.listen(config.port, ()=>{
+console.log("the serving is running on "+config.port+" ");
 })
 
 
