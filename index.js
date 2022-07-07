@@ -11,7 +11,16 @@ const https = require('https')
 const url = require('url');
 const config = require('./config')
 var {StringDecoder} = require('string_decoder');
-const fs = require('fs')
+const fs = require('fs');
+const _data = require('./lib/data')
+
+
+// testing
+// @TODO delete this
+
+_data.create('test', 'newFile', {"foo":"bar"}, function(err){
+  console.log(err,);
+})
 
 let httpsServerOption = {
    'cert':fs.readFileSync('./https/cert.pem'),
