@@ -7,11 +7,48 @@
 // Dependencies
 
 const http = require('http');
+const https = require('https')
 const url = require('url');
+const config = require('./config')
 var {StringDecoder} = require('string_decoder');
+const fs = require('fs')
+
+let httpsServerOption = {
+   'cert':fs.readFileSync('./https/cert.pem'),
+   'key': fs.readFileSync('./https/key.pem')
+}
+
+let httpServer = http.createServer((req,res)=>{
+
+  unified(req, res);
+});
 
 
-const server = http.createServer((req,res)=>{
+let httpsServer = https.createServer(httpsServerOption,(req,res)=>{
+
+  unified(req, res);
+});
+// server.on('request' , )
+
+// http serveer instantiate 
+
+httpServer.listen(config.httpPort, ()=>{
+console.log("the serving is running on "+config.httpPort+" ");
+})
+
+// https server instantiate
+
+
+httpsServer.listen(config.httpsPort, ()=>{
+console.log("the serving is running on "+config.httpsPort+" ");
+})
+
+
+
+// all the server logic for both http & https
+
+let unified = function(req, res){
+
  // Parse the url
   var parsedUrl = url.parse(req.url, true);
 
@@ -62,6 +99,7 @@ const server = http.createServer((req,res)=>{
         var paylaodString = JSON.stringify(payload);
 
         // send the response
+        res.setHeader('Content-Type', "application/json")
         res.writeHead(statusCode).end(paylaodString)
 
 
@@ -75,17 +113,7 @@ const server = http.createServer((req,res)=>{
 
 
 
-    // get the headers as an object
-  // Log the request/response
-  // console.log(`so the headers is ${headers}`);
-});
-
-// server.on('request' , )
-
-
-server.listen(3000, ()=>{
-console.log("the serving is running on...");
-})
+}
 
 
 var handler = {
