@@ -11,7 +11,37 @@ const https = require('https')
 const url = require('url');
 const config = require('./config')
 var {StringDecoder} = require('string_decoder');
-const fs = require('fs')
+const fs = require('fs');
+const _data = require('./lib/data')
+
+
+// testing
+// @TODO delete this
+
+// writing file 
+
+// _data.create('test', 'newFile-2',{fizz: 'buzinng'}, function(err, data){
+//   console.log(err, "if not",data );
+// })
+
+
+// updating file
+// _data.update('test', 'newFile',{fizz: 'buzinng'}, function(err, data){
+//   console.log(err, "if not",data );
+// })
+
+// deleting file 
+
+_data.delete('test', 'newFile-2', function(err){
+    // console.log(er);
+    if(!err){
+      console.log("File deleted successfully");
+    }else{
+      console.log("error got me", err);
+    }
+})
+
+
 
 let httpsServerOption = {
    'cert':fs.readFileSync('./https/cert.pem'),
