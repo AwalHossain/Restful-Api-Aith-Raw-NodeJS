@@ -18,9 +18,19 @@ const _data = require('./lib/data')
 // testing
 // @TODO delete this
 
-_data.create('test', 'newFile', {"foo":"bar"}, function(err){
-  console.log(err,);
+// writing file 
+
+_data.create('test', 'newFile-2',{fizz: 'buzinng'}, function(err, data){
+  console.log(err, "if not",data );
 })
+
+
+// updating file
+// _data.update('test', 'newFile',{fizz: 'buzinng'}, function(err, data){
+//   console.log(err, "if not",data );
+// })
+
+
 
 let httpsServerOption = {
    'cert':fs.readFileSync('./https/cert.pem'),
