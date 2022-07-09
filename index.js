@@ -89,7 +89,7 @@ let unified = function(req, res){
   var path = parsedUrl.pathname;
   var queryStringObject = parsedUrl.query;
   var trimmedPath = path.replace(/^\/+|\/+$/g, '');
-
+console.log(trimmedPath, "path");
 //   get the http method
 
     var method = req.method.toLowerCase();
