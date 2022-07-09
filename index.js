@@ -14,6 +14,7 @@ var {StringDecoder} = require('string_decoder');
 const fs = require('fs');
 const _data = require('./lib/data')
 const {handler} = require('./lib/handler');
+const helpers = require('./lib/helpers');
 
 
 console.log(handler.ping, "handler");
@@ -117,7 +118,7 @@ let unified = function(req, res){
         'trimmedPath': trimmedPath,
         'queryStringObject': queryStringObject,
         'method': method,
-        'payload': JSON.parse(buffer),
+        'payload': helpers.parseJsonToObjec(buffer),
         'headers': headers
       }
 
