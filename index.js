@@ -13,8 +13,10 @@ const config = require('./config')
 var {StringDecoder} = require('string_decoder');
 const fs = require('fs');
 const _data = require('./lib/data')
+const {handler} = require('./lib/handler');
 
 
+console.log(handler.ping, "handler");
 // testing
 // @TODO delete this
 
@@ -108,7 +110,8 @@ let unified = function(req, res){
       
       // check the router for a matching path for a handler. If one is not found, use not found instead
       var chosenHandler = typeof(router[trimmedPath]) !== 'undefined' ? router[trimmedPath]: handler.notFound;
-      // console.log(chosenHandler,"ho");
+      
+      console.log(chosenHandler,"ho");
       // construct the data object to send to the handler
       var data ={
         'trimmedPath': trimmedPath,
@@ -146,23 +149,13 @@ let unified = function(req, res){
 }
 
 
-var handler = {
-
-}
-
-handler.sample = function(data, callBack){
-  callBack(200,{"name":"Hello there! Welcome here"})
-}
-
-handler.notFound = function(data, callBack){
-  callBack(404,{"error":"Sorry it's not found"})
-}
 
 
 // define the request router 
 
 var router = {
-  sample: handler.sample
+  "sample": handler.sample
+  
 }
 
 
