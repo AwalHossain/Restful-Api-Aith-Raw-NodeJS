@@ -117,7 +117,7 @@ let unified = function(req, res){
         'trimmedPath': trimmedPath,
         'queryStringObject': queryStringObject,
         'method': method,
-        'payload': buffer,
+        'payload': JSON.parse(buffer),
         'headers': headers
       }
 
@@ -154,7 +154,8 @@ let unified = function(req, res){
 // define the request router 
 
 var router = {
-  "sample": handler.sample
+  "ping": handler.ping,
+  "users": handler.user
   
 }
 
