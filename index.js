@@ -46,10 +46,10 @@ _data.delete('test', 'newFile-2', function(err){
 
 
 
-let httpsServerOption = {
-   'cert':fs.readFileSync('./https/cert.pem'),
-   'key': fs.readFileSync('./https/key.pem')
-}
+// let httpsServerOption = {
+//    'cert':fs.readFileSync('./https/cert.pem'),
+//    'key': fs.readFileSync('./https/key.pem')
+// }
 
 let httpServer = http.createServer((req,res)=>{
 
@@ -57,10 +57,10 @@ let httpServer = http.createServer((req,res)=>{
 });
 
 
-let httpsServer = https.createServer(httpsServerOption,(req,res)=>{
+// let httpsServer = https.createServer(httpsServerOption,(req,res)=>{
 
-  unified(req, res);
-});
+//   unified(req, res);
+// });
 // server.on('request' , )
 
 // http serveer instantiate 
@@ -72,9 +72,9 @@ console.log("the serving is running on "+config.httpPort+" ");
 // https server instantiate
 
 
-httpsServer.listen(config.httpsPort, ()=>{
-console.log("the serving is running on "+config.httpsPort+" ");
-})
+// httpsServer.listen(config.httpsPort, ()=>{
+// console.log("the serving is running on "+config.httpsPort+" ");
+// })
 
 
 
@@ -127,6 +127,7 @@ console.log(trimmedPath, "path");
         
         // use the payload returned from the handler 
         payload = typeof(payload) == 'object' ? payload : {};
+        console.log(payload,"paylo");
 
         // convert the paylaod to a string 
 
