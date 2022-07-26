@@ -157,7 +157,8 @@ console.log(trimmedPath, "path");
 
 var router = {
   "ping": handler.ping,
-  "users": handler.user
+  "users": handler.user,
+  "token": handler.token
   
 }
 
