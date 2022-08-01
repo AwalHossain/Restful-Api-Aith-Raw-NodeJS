@@ -17,7 +17,6 @@ const {handler} = require('./lib/handler');
 const helpers = require('./lib/helpers');
 
 
-console.log(handler.ping, "handler");
 // testing
 // @TODO delete this
 
@@ -35,14 +34,14 @@ console.log(handler.ping, "handler");
 
 // deleting file 
 
-_data.delete('test', 'newFile-2', function(err){
-    // console.log(er);
-    if(!err){
-      console.log("File deleted successfully");
-    }else{
-      console.log("error got me", err);
-    }
-})
+// _data.delete('test', 'newFile-2', function(err){
+//     // console.log(er);
+//     if(!err){
+//       console.log("File deleted successfully");
+//     }else{
+//       console.log("error got me", err);
+//     }
+// })
 
 
 
@@ -89,7 +88,6 @@ let unified = function(req, res){
   var path = parsedUrl.pathname;
   var queryStringObject = parsedUrl.query;
   var trimmedPath = path.replace(/^\/+|\/+$/g, '');
-console.log(trimmedPath, "path");
 //   get the http method
 
     var method = req.method.toLowerCase();
@@ -112,7 +110,6 @@ console.log(trimmedPath, "path");
       // check the router for a matching path for a handler. If one is not found, use not found instead
       var chosenHandler = typeof(router[trimmedPath]) !== 'undefined' ? router[trimmedPath]: handler.notFound;
       
-      console.log(chosenHandler,"ho");
       // construct the data object to send to the handler
       var data ={
         'trimmedPath': trimmedPath,
@@ -127,7 +124,6 @@ console.log(trimmedPath, "path");
         
         // use the payload returned from the handler 
         payload = typeof(payload) == 'object' ? payload : {};
-        console.log(payload,"paylo");
 
         // convert the paylaod to a string 
 
