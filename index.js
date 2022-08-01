@@ -17,6 +17,10 @@ const {handler} = require('./lib/handler');
 const helpers = require('./lib/helpers');
 
 
+
+helpers.sendTwilioSms("1627656375", "I was wondering", (err)=>{
+  console.log(err,"oe");
+})
 // testing
 // @TODO delete this
 
@@ -158,5 +162,7 @@ var router = {
   "checks":handler.check,
   
 }
+
+
 
 
