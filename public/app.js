@@ -104,37 +104,35 @@ app.bindForms = function(){
           payload[elements[i].name] = valueOfElement;
         }
       }
+
+
+      // call the api
+
+      fetch("http://localhost:3000/api/users",{
+        method: 'POST',
+        headers:{
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(payload)
+      })
+      .then(res => res.json())
+      .then(data => console.log(data))
   
-      // Call the API
-      app.client.request(undefined,path,method,undefined,payload,function(statusCode,responsePayload){
-        // Display an error on the form if needed
-        if(statusCode !== 200){
-  
-          // Try to get the error from the api, or set a default error message
-          var error = typeof(responsePayload.Error) == 'string' ? responsePayload.Error : 'An error has occured, please try again';
-  
-          // Set the formError field with the error text
-          document.querySelector("#"+formId+" .formError").innerHTML = error;
-  
-          // Show (unhide) the form error field on the form
-          document.querySelector("#"+formId+" .formError").style.display = 'block';
-  
-        } else {
-          // If successful, send to form response processor
-          app.formResponseProcessor(formId,payload,responsePayload);
-        }
-  
-      });
+ 
     });
   };
-  
+
+
+
+
   // Form response processor
-  app.formResponseProcessor = function(formId,requestPayload,responsePayload){
-    var functionToCall = false;
-    if(formId == 'accountCreate'){
-      // @TODO Do something here now that the account has been created successfully
-    }
-  };
+  // app.formResponseProcessor = function(formId,requestPayload,responsePayload){
+  //   var functionToCall = false;
+  //   if(formId == 'accountCreate'){
+  //     // @TODO Do something here now that the account has been created successfully
+  //   }
+  // };
   
   // Init (bootstrapping)
   app.init = function(){
