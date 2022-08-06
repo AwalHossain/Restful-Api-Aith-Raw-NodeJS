@@ -288,6 +288,7 @@ app.setSessionToken = function(token){
 
 // Renew the token
 app.renewToken = function(callback){
+  console.log("rew");
   var currentToken = typeof(app.config.sessionToken) == 'object' ? app.config.sessionToken : false;
   if(currentToken){
   //   // Update the token with a new expiration
@@ -302,17 +303,7 @@ console.log("renew", payload );
 
   //     if(statusCode == 200){
   //       // Get the new token details
-  //       var queryStringObject = {'id' : currentToken.id};
-  //       app.client.request(undefined,'api/token','GET',queryStringObject,undefined,function(statusCode,responsePayload){
-  //         // Display an error on the form if needed
-  //         if(statusCode == 200){
-  //           // app.setSessionToken(responsePayload);
-  //           // callback(false);
-  //         } else {
-  //           // app.setSessionToken(false);
-  //           // callback(true);
-  //         }
-  //       });
+       
   //     } else {
   //       app.setSessionToken(false);
   //       callback(true);
@@ -333,7 +324,19 @@ console.log("renew", payload );
     // if(typeof(requestPayload) === 'object'){
           // If successful, set the token and redirect the user
       console.log(responsePayload,"from update");
-      // window.location = '/checks/all';
+      var queryStringObject = {'id' : currentToken.id};
+      app.client.request(undefined,'api/token','GET',queryStringObject,undefined,function(statusCode,responsePayload){
+        // Display an error on the form if needed
+        console.log(statusCode, responsePayload, "from the ajx request");
+        if(statusCode == 200){
+
+          // app.setSessionToken(responsePayload);
+          // callback(false);
+        } else {
+          // app.setSessionToken(false);
+          // callback(true);
+        }
+      });
     // }
   })
 
