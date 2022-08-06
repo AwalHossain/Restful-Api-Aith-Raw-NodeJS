@@ -160,31 +160,41 @@ app.bindForms = function(){
 
       // });
 
-      fetch("http://localhost:3000/api/users",{
-        method: 'POST',
-        headers:{
-          'Accept': 'application/json',
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(payload)
-      })
-      .then(res => res.json())
-      .then(responsePayload =>{
-        console.log(responsePayload.status === 200)
-        // If successful, send to form response processor
-        app.formResponseProcessor(formId,payload,responsePayload)
+      if(formId == 'accountCreate'){
+        fetch("http://localhost:3000/api/users",{
+          method: 'POST',
+          headers:{
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(payload)
+        })
+        .then(res => res.json())
+        .then(responsePayload =>{
+          console.log(responsePayload.status === 200)
+          // If successful, send to form response processor
+          app.formResponseProcessor(formId,payload,responsePayload)
+        }
+        )
+
       }
-      )
+
+      if(formId == 'sessionCreate'){
+        console.log("ofoal");
+        app.formResponseProcessor( formId,payload)
+      }
+
+     
 
     });
   }
 };
 
 // Form response processor
-app.formResponseProcessor = function(formId,requestPayload,responsePayload){
+app.formResponseProcessor = function(formId,requestPayload){
   var functionToCall = false;
   // If account creation was successful, try to immediately log the user in
-  if(formId == 'accountCreate'){
+  if(formId == 'accountCreate' || formId == 'sessionCreate' ){
     // Take the phone and password, and use it to log the user in
     var newPayload = {
       'phone' : requestPayload.phone,
@@ -230,28 +240,29 @@ app.formResponseProcessor = function(formId,requestPayload,responsePayload){
   // If login was successful, set the token in localstorage and redirect the user
   // if(formId == 'sessionCreate'){
   //   app.setSessionToken(responsePayload);
-    // window.location = '/checks/all';
+  //   window.location = '/checks/all';
   // }
 };
 
 // Get the session token from localstorage and set it in the app.config object
-// app.getSessionToken = function(){
-//   var tokenString = localStorage.getItem('token');
-//   if(typeof(tokenString) == 'string'){
-//     try{
-//       var token = JSON.parse(tokenString);
-//       app.config.sessionToken = token;
-//       if(typeof(token) == 'object'){
-//         app.setLoggedInClass(true);
-//       } else {
-//         app.setLoggedInClass(false);
-//       }
-//     }catch(e){
-//       app.config.sessionToken = false;
-//       app.setLoggedInClass(false);
-//     }
-//   }
-// };
+app.getSessionToken = function(){
+  var tokenString = localStorage.getItem('token');
+  if(typeof(tokenString) == 'string'){
+    try{
+      var token = JSON.parse(tokenString);
+      console.log();
+      app.config.sessionToken = token;
+      if(typeof(token) == 'object'){
+        app.setLoggedInClass(true);
+      } else {
+        app.setLoggedInClass(false);
+      }
+    }catch(e){
+      app.config.sessionToken = false;
+      app.setLoggedInClass(false);
+    }
+  }
+};
 
 // Set (or remove) the loggedIn class from the body
 app.setLoggedInClass = function(add){
@@ -276,50 +287,50 @@ app.setSessionToken = function(token){
 };
 
 // Renew the token
-// app.renewToken = function(callback){
-//   var currentToken = typeof(app.config.sessionToken) == 'object' ? app.config.sessionToken : false;
-//   if(currentToken){
-//     // Update the token with a new expiration
-//     var payload = {
-//       'id' : currentToken.id,
-//       'extend' : true,
-//     };
-//     app.client.request(undefined,'api/tokens','PUT',undefined,payload,function(statusCode,responsePayload){
-//       // Display an error on the form if needed
-//       if(statusCode == 200){
-//         // Get the new token details
-//         var queryStringObject = {'id' : currentToken.id};
-//         app.client.request(undefined,'api/tokens','GET',queryStringObject,undefined,function(statusCode,responsePayload){
-//           // Display an error on the form if needed
-//           if(statusCode == 200){
-//             app.setSessionToken(responsePayload);
-//             callback(false);
-//           } else {
-//             app.setSessionToken(false);
-//             callback(true);
-//           }
-//         });
-//       } else {
-//         app.setSessionToken(false);
-//         callback(true);
-//       }
-//     });
-//   } else {
-//     app.setSessionToken(false);
-//     callback(true);
-//   }
-// };
+app.renewToken = function(callback){
+  var currentToken = typeof(app.config.sessionToken) == 'object' ? app.config.sessionToken : false;
+  if(currentToken){
+    // Update the token with a new expiration
+    var payload = {
+      'id' : currentToken.id,
+      'extend' : true,
+    };
+    app.client.request(undefined,'api/token','PUT',undefined,payload,function(statusCode,responsePayload){
+      // Display an error on the form if needed
+      if(statusCode == 200){
+        // Get the new token details
+        var queryStringObject = {'id' : currentToken.id};
+        app.client.request(undefined,'api/token','GET',queryStringObject,undefined,function(statusCode,responsePayload){
+          // Display an error on the form if needed
+          if(statusCode == 200){
+            app.setSessionToken(responsePayload);
+            callback(false);
+          } else {
+            app.setSessionToken(false);
+            callback(true);
+          }
+        });
+      } else {
+        app.setSessionToken(false);
+        callback(true);
+      }
+    });
+  } else {
+    app.setSessionToken(false);
+    callback(true);
+  }
+};
 
 // Loop to renew token often
-// app.tokenRenewalLoop = function(){
-//   setInterval(function(){
-//     app.renewToken(function(err){
-//       if(!err){
-//         console.log("Token renewed successfully @ "+Date.now());
-//       }
-//     });
-//   },1000 * 60);
-// };
+app.tokenRenewalLoop = function(){
+  setInterval(function(){
+    app.renewToken(function(err){
+      if(!err){
+        console.log("Token renewed successfully @ "+Date.now());
+      }
+    });
+  },1000 * 60);
+};
 
 // Init (bootstrapping)
 app.init = function(){
@@ -328,10 +339,10 @@ app.init = function(){
   app.bindForms();
 
   // // Get the token from localstorage
-  // app.getSessionToken();
+  app.getSessionToken();
 
   // // Renew token
-  // app.tokenRenewalLoop();
+  app.tokenRenewalLoop();
 
 };
 
