@@ -217,7 +217,6 @@ app.formResponseProcessor = function(formId,requestPayload,responsePayload){
     })
     .then(res => res.json())
     .then(responsePayload =>{ 
-      console.log(responsePayload);
       // if(typeof(requestPayload) === 'object'){
             // If successful, set the token and redirect the user
         app.setSessionToken(responsePayload);
@@ -231,7 +230,7 @@ app.formResponseProcessor = function(formId,requestPayload,responsePayload){
   // If login was successful, set the token in localstorage and redirect the user
   // if(formId == 'sessionCreate'){
   //   app.setSessionToken(responsePayload);
-  //   window.location = '/checks/all';
+    // window.location = '/checks/all';
   // }
 };
 
@@ -255,26 +254,25 @@ app.formResponseProcessor = function(formId,requestPayload,responsePayload){
 // };
 
 // Set (or remove) the loggedIn class from the body
-// app.setLoggedInClass = function(add){
-//   var target = document.querySelector("body");
-//   if(add){
-//     target.classList.add('loggedIn');
-//   } else {
-//     target.classList.remove('loggedIn');
-//   }
-// };
+app.setLoggedInClass = function(add){
+  var target = document.querySelector("body");
+  if(add){
+    target.classList.add('loggedIn');
+  } else {
+    target.classList.remove('loggedIn');
+  }
+};
 
 // Set the session token in the app.config object as well as localstorage
 app.setSessionToken = function(token){
   console.log(token,"from token");
-  // app.config.sessionToken = token;
-  // var tokenString = JSON.stringify(token);
-  // localStorage.setItem('token',tokenString);
-  // if(typeof(token) == 'object'){
-  //   app.setLoggedInClass(true);
-  // } else {
-  //   app.setLoggedInClass(false);
-  // }
+  var tokenString = JSON.stringify(token);
+  localStorage.setItem('token',tokenString);
+  if(typeof(token) == 'object'){
+    app.setLoggedInClass(true);
+  } else {
+    app.setLoggedInClass(false);
+  }
 };
 
 // Renew the token
