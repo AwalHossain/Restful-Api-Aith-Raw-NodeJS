@@ -289,15 +289,17 @@ app.setSessionToken = function(token){
 // Renew the token
 app.renewToken = function(callback){
   var currentToken = typeof(app.config.sessionToken) == 'object' ? app.config.sessionToken : false;
-  console.log( "From test", app.config);
-  // if(currentToken){
+  if(currentToken){
   //   // Update the token with a new expiration
-  //   var payload = {
-  //     'id' : currentToken.id,
-  //     'extend' : true,
-  //   };
+    var payload = {
+      'id' : currentToken.id,
+      'extend' : true,
+    };
+console.log("renew", payload );
   //   app.client.request(undefined,'api/token','PUT',undefined,payload,function(statusCode,responsePayload){
   //     // Display an error on the form if needed
+  // console.log( "From test", statusCode,responsePayload, );
+
   //     if(statusCode == 200){
   //       // Get the new token details
   //       var queryStringObject = {'id' : currentToken.id};
@@ -316,10 +318,33 @@ app.renewToken = function(callback){
   //       callback(true);
   //     }
   //   });
-  // } else {
-  //   app.setSessionToken(false);
-  //   callback(true);
-  // }
+
+
+  fetch("http://localhost:3000/api/token",{
+    method: 'PUT',
+    headers:{
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(payload)
+  })
+  .then(res => res.json())
+  .then(responsePayload =>{ 
+    // if(typeof(requestPayload) === 'object'){
+          // If successful, set the token and redirect the user
+      console.log(responsePayload,"from update");
+      // window.location = '/checks/all';
+    // }
+  })
+
+
+
+
+  } else {
+    // app.setSessionToken(false);
+    // callback(true);
+  
+  }
 };
 
 // Loop to renew token often
