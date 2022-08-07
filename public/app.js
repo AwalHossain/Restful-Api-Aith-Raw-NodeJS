@@ -85,9 +85,14 @@ app.client.request = function (headers, path, method, queryStringObject, payload
 // Bind the logout button
 
 app.bindLogoutButton = ()=>{
-  document.getElementById("logoutButton").addEventListener("click",(e)=>{
-    // Stop it from redirecting anywhere
-    e.preventDefault();
+
+ let logout = document.getElementById("logoutButton");
+ 
+ console.log(logout);
+ logout.addEventListener("click",(e)=>{
+   // Stop it from redirecting anywhere
+   e.preventDefault();
+   console.log("clicked");
 
     // logs the user out
     app.logUserOut();
@@ -110,9 +115,10 @@ app.logUserOut=(redirectUser)=>{
   .then(res => res.json())
   .then(data => {
     console.log(data,"delete token");
-
+    app.setSessionToken(false);
+    window.location = '/session/delete'
     if(typeof(app.config.sessionToken) !== 'object'){
-      window.location = '/session/deleted'
+      console.log("not object");
     }
   })
 }
@@ -224,8 +230,8 @@ app.formResponseProcessor = function (formId, requestPayload) {
       .then(responsePayload => {
         // if(typeof(requestPayload) === 'object'){
         // If successful, set the token and redirect the user
+        window.location = '/';
         app.setSessionToken(responsePayload);
-        // window.location = '/checks/all';
         // }
       })
 
@@ -348,6 +354,9 @@ app.init = function () {
 
   // Bind all form submissions
   app.bindForms();
+
+   // Bind logout logout button
+  app.bindLogoutButton();
 
   // // Get the token from localstorage
   app.getSessionToken();
