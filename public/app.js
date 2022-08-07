@@ -325,18 +325,29 @@ console.log("renew", payload );
           // If successful, set the token and redirect the user
       console.log(responsePayload,"from update");
       var queryStringObject = {'id' : currentToken.id};
-      app.client.request(undefined,'api/token','GET',queryStringObject,undefined,function(statusCode,responsePayload){
-        // Display an error on the form if needed
-        console.log(statusCode, responsePayload, "from the ajx request");
-        if(statusCode == 200){
 
-          // app.setSessionToken(responsePayload);
-          // callback(false);
-        } else {
-          // app.setSessionToken(false);
-          // callback(true);
+      fetch(`http://localhost:3000/api/token?id=${queryStringObject.id}`,{
+        method: 'GET',
+        headers:{
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
         }
-      });
+      })
+      .then(res => res.json())
+      .then(data => console.log(data,"from get method"))
+
+      // app.client.request(undefined,'api/tokene','GET',queryStringObject,undefined,function(statusCode,responsePayload){
+      //   // Display an error on the form if needed
+      //   console.log(statusCode, responsePayload, "from the ajx request");
+      //   if(statusCode == 200){
+
+      //     // app.setSessionToken(responsePayload);
+      //     // callback(false);
+      //   } else {
+      //     // app.setSessionToken(false);
+      //     // callback(true);
+      //   }
+      // });
     // }
   })
 
