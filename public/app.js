@@ -334,7 +334,14 @@ console.log("renew", payload );
         }
       })
       .then(res => res.json())
-      .then(data => console.log(data,"from get method"))
+      .then(data =>{
+        if(typeof(data) === 'object'){
+          console.log(data,"from get method")
+          app.setSessionToken(data);
+        }else{
+               app.setSessionToken(false);
+        }
+      } )
 
       // app.client.request(undefined,'api/tokene','GET',queryStringObject,undefined,function(statusCode,responsePayload){
       //   // Display an error on the form if needed
