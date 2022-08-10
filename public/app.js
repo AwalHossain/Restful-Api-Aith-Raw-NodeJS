@@ -370,25 +370,41 @@ app.loadAccountEditPage = function(){
     var queryStringObject = {
       'phone' : phone
     };
-    app.client.request(undefined,'/api/users','GET',queryStringObject,undefined,function(statusCode,responsePayload){
-      console.log(statusCode, responsePayload);
-      if(statusCode == 200){
-        // Put the data into the forms as values where needed
-        document.querySelector("#accountEdit1 .firstNameInput").value = responsePayload.firstName;
-        document.querySelector("#accountEdit1 .lastNameInput").value = responsePayload.lastName;
-        document.querySelector("#accountEdit1 .displayPhoneInput").value = phone;
 
-        // Put the hidden phone field into both forms
-        var hiddenPhoneInputs = document.querySelectorAll("input.hiddenPhoneNumberInput");
-        for(var i = 0; i < hiddenPhoneInputs.length; i++){
-            hiddenPhoneInputs[i].value = phone;
-        }
 
-      } else {
-        // If the request comes back as something other than 200, log the user our (on the assumption that the api is temporarily down or the users token is bad)
-        app.logUserOut();
+
+    fetch(`http://localhost:3000/api/users?phone=${phone}`,{
+      method: 'GET',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        "token":app.config.sessionToken.id
       }
-    });
+    })
+    .then(res => res.json())
+    .then(data => console.log(data))
+
+
+
+    // app.client.request(undefined,'/api/users','GET',queryStringObject,undefined,function(statusCode,responsePayload){
+    //   console.log(statusCode, responsePayload);
+    //   if(statusCode == 200){
+    //     // Put the data into the forms as values where needed
+    //     document.querySelector("#accountEdit1 .firstNameInput").value = responsePayload.firstName;
+    //     document.querySelector("#accountEdit1 .lastNameInput").value = responsePayload.lastName;
+    //     document.querySelector("#accountEdit1 .displayPhoneInput").value = phone;
+
+    //     // Put the hidden phone field into both forms
+    //     var hiddenPhoneInputs = document.querySelectorAll("input.hiddenPhoneNumberInput");
+    //     for(var i = 0; i < hiddenPhoneInputs.length; i++){
+    //         hiddenPhoneInputs[i].value = phone;
+    //     }
+
+    //   } else {
+    //     // If the request comes back as something other than 200, log the user our (on the assumption that the api is temporarily down or the users token is bad)
+    //     // app.logUserOut();
+    //   }
+    // });
   } else {
     app.logUserOut();
   }
