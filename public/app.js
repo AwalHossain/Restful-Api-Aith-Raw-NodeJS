@@ -84,15 +84,15 @@ app.client.request = function (headers, path, method, queryStringObject, payload
 
 // Bind the logout button
 
-app.bindLogoutButton = ()=>{
+app.bindLogoutButton = () => {
 
- let logout = document.getElementById("logoutButton");
- 
- console.log(logout);
- logout.addEventListener("click",(e)=>{
-   // Stop it from redirecting anywhere
-   e.preventDefault();
-   console.log("clicked");
+  let logout = document.getElementById("logoutButton");
+
+  console.log(logout);
+  logout.addEventListener("click", (e) => {
+    // Stop it from redirecting anywhere
+    e.preventDefault();
+    console.log("clicked");
 
     // logs the user out
     app.logUserOut();
@@ -101,26 +101,26 @@ app.bindLogoutButton = ()=>{
 
 
 // Log the user out then redirect them
-app.logUserOut=(redirectUser)=>{
+app.logUserOut = (redirectUser) => {
   // set the ridirectUser to default to true
-  redirect = typeof(redirectUser) == 'boolean' ? redirectUser : true;
+  redirect = typeof (redirectUser) == 'boolean' ? redirectUser : true;
 
 
   // get the current token id ;
-  let tokenId = typeof(app.config.sessionToken.id) === 'string' ? app.config.sessionToken.id : false;
+  let tokenId = typeof (app.config.sessionToken.id) === 'string' ? app.config.sessionToken.id : false;
 
   // fetch the delete api
 
   fetch(`http://localhost:3000/api/token?id=${tokenId}`)
-  .then(res => res.json())
-  .then(data => {
-    console.log(data,"delete token");
-    app.setSessionToken(false);
-    window.location = '/session/delete'
-    if(typeof(app.config.sessionToken) !== 'object'){
-      console.log("not object");
-    }
-  })
+    .then(res => res.json())
+    .then(data => {
+      console.log(data, "delete token");
+      app.setSessionToken(false);
+      window.location = '/session/delete'
+      if (typeof (app.config.sessionToken) !== 'object') {
+        console.log("not object");
+      }
+    })
 }
 
 
@@ -217,7 +217,7 @@ app.formResponseProcessor = function (formId, requestPayload) {
       'phone': requestPayload.phone,
       'password': requestPayload.password
     };
- 
+
 
 
     fetch("http://localhost:3000/api/token", {
@@ -348,41 +348,41 @@ app.tokenRenewalLoop = function () {
 
 
 // Load data on the page
-app.loadDataOnPage = function(){
+app.loadDataOnPage = function () {
   // Get the current page from the body class
   var bodyClasses = document.querySelector("body").classList;
-  var primaryClass = typeof(bodyClasses[0]) == 'string' ? bodyClasses[0] : false;
+  var primaryClass = typeof (bodyClasses[0]) == 'string' ? bodyClasses[0] : false;
 
   // Logic for account settings page
   console.log("osit ", bodyClasses);
-  if(primaryClass == 'accountEdit'){
+  if (primaryClass == 'accountEdit') {
 
     app.loadAccountEditPage();
   }
 };
 
 // Load the account edit page specifically
-app.loadAccountEditPage = function(){
+app.loadAccountEditPage = function () {
   // Get the phone number from the current token, or log the user out if none is there
-  var phone = typeof(app.config.sessionToken.phone) == 'string' ? app.config.sessionToken.phone : false;
-  if(phone){
+  var phone = typeof (app.config.sessionToken.phone) == 'string' ? app.config.sessionToken.phone : false;
+  if (phone) {
     // Fetch the user data
     var queryStringObject = {
-      'phone' : phone
+      'phone': phone
     };
 
 
 
-    fetch(`http://localhost:3000/api/users?phone=${phone}`,{
+    fetch(`http://localhost:3000/api/users?phone=${phone}`, {
       method: 'GET',
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
-        "token":app.config.sessionToken.id
+        "token": app.config.sessionToken.id
       }
     })
-    .then(res => res.json())
-    .then(data => console.log(data))
+      .then(res => res.json())
+      .then(data => console.log(data))
 
 
 
@@ -419,7 +419,7 @@ app.init = function () {
   // Bind all form submissions
   app.bindForms();
 
-   // Bind logout logout button
+  // Bind logout logout button
   app.bindLogoutButton();
 
   // // Get the token from localstorage
