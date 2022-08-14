@@ -202,6 +202,14 @@ app.bindForms = function () {
       }
 
 
+      /** Delete User */
+
+      if(formId == 'accountEdit3'){
+        console.log(formId, payload,"oajo");
+        app.formResponseProcessor(formId)
+      }
+
+
 
     });
   }
