@@ -270,8 +270,8 @@ app.formResponseProcessor = function (formId, requestPayload) {
     .then(data => {
       console.log(data.success)
       if(data.success){
-        app.logUserOut();
         window.location = ("/account/deleted")
+        app.logUserOut();
       }
     })
   }
