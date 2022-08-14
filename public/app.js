@@ -212,6 +212,13 @@ app.bindForms = function () {
       }
 
 
+      /** Create Checks */
+
+      if(formId == 'checksCreate'){
+        console.log(formId, payload);
+        app.formResponseProcessor(formId, payload)
+      }
+
 
     });
   }
@@ -275,7 +282,30 @@ app.formResponseProcessor = function (formId, requestPayload) {
       }
     })
   }
+
+/**  Create Checks */
+
+if(formId == 'checksCreate'){
+  fetch("http://localhost:3000/api/checks",{
+    method:"POST",
+    headers:{
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      "token": app.config.sessionToken.id
+    },
+    body: JSON.stringify(payload)
+  })
+  .then(res => res.json())
+  .then(data=> console.log(data))
+}
+
+
 };
+
+
+
+
+
 
 // Get the session token from localstorage and set it in the app.config object
 app.getSessionToken = function () {
