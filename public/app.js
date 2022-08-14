@@ -158,7 +158,9 @@ app.bindForms = function () {
     document.querySelector("form").addEventListener("submit", function (e) {
 
       // Stop it from submitting
+     
       e.preventDefault();
+
       var formId = this.id;
       var path = this.action;
       var method = this.method.toUpperCase();
@@ -205,8 +207,8 @@ app.bindForms = function () {
       /** Delete User */
 
       if(formId == 'accountEdit3'){
-        console.log(formId, payload,"oajo");
-        app.formResponseProcessor(formId)
+        console.log(this.id,"oajo", payload);
+        app.formResponseProcessor(formId, payload.method);
       }
 
 
@@ -390,7 +392,7 @@ app.loadAccountEditPage = function () {
       }
     })
       .then(res => res.json())
-      .then(data => console.log(data))
+      .then(data => data)
 
 
 
