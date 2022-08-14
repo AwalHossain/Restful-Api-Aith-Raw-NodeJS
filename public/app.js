@@ -208,7 +208,7 @@ app.bindForms = function () {
 
       if(formId == 'accountEdit3'){
         console.log(this.id,"oajo", payload);
-        app.formResponseProcessor(formId, payload.method);
+        app.formResponseProcessor(formId, payload);
       }
 
 
@@ -249,6 +249,31 @@ app.formResponseProcessor = function (formId, requestPayload) {
 
 
 
+  }
+
+  /** Account delet method */
+
+  if(formId == 'accountEdit3'){
+    let phone = typeof (app.config.sessionToken.phone) === 'string' ? app.config.sessionToken.phone : false;
+    console.log(phone,'o');
+    // get the current token id ;
+    fetch(`http://localhost:3000/api/users?phone=${phone}`,{
+        method:"DELETE",
+        headers:{
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+          "token": app.config.sessionToken.id
+        }
+      
+    })
+    .then(res => res.json())
+    .then(data => {
+      console.log(data.success)
+      if(data.success){
+        app.logUserOut();
+        window.location = ("/account/deleted")
+      }
+    })
   }
 };
 
