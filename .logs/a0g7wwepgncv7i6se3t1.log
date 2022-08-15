@@ -1,0 +1,1 @@
+{"check":{"id":"a0g7wwepgncv7i6se3t1","userPhone":"1742231153","protocol":"https","url":"www.twitter.com","method":"put","successCodes":[200,201,301,302,400,403,404],"timeoutSecods":4,"state":"up","lastChecked":1660542438200},"outcome":{"error":false,"responseCode":301},"state":"up","alert":false,"time":1660542443623}
