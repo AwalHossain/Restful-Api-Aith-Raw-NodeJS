@@ -1,1 +1,1 @@
-{"id":"7hd21y0lb0s1fjrsg4bc","userPhone":"1742231153","protocol":"https","url":"twitter.com","method":"get","successCodes":[200,201,301,302],"timeoutSecods":3,"state":"up","lastChecked":1660543032004}
+{"id":"7hd21y0lb0s1fjrsg4bc","userPhone":"1742231153","protocol":"https","url":"twitter.com","method":"get","successCodes":[200,201,301,302],"timeoutSecods":3,"state":"down","lastChecked":1660543071825}
