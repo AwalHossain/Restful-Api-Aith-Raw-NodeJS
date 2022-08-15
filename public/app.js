@@ -444,10 +444,18 @@ app.loadDataOnPage = function () {
   var primaryClass = typeof (bodyClasses[0]) == 'string' ? bodyClasses[0] : false;
 
   // Logic for account settings page
-  console.log("osit ", bodyClasses);
-  if (primaryClass == 'accountEdit') {
-
+  if(primaryClass == 'accountEdit'){
     app.loadAccountEditPage();
+  }
+
+  // Logic for dashboard page
+  if(primaryClass == 'checksList'){
+    app.loadChecksListPage();
+  }
+
+  // Logic for check details page
+  if(primaryClass == 'checksEdit'){
+    app.loadChecksEditPage();
   }
 };
 
@@ -638,12 +646,6 @@ app.init = function () {
 
   // edit accoutn
   app.loadDataOnPage();
-
-  // checks list
-  app.loadChecksListPage();
-
-  // edit checks list
-  app.loadChecksEditPage();
 
 };
 
