@@ -1,1 +1,8 @@
-{"firstName":"Md.","lastName":"Hossain","password":"123456","hashPass":"088b35ff75eb956aeed6b4ae761a627f5f5100d6dcd5f972adee9920e204dd7f","tosagreement":true,"checks":["oj9pemz6q905fiksjq8e","7hd21y0lb0s1fjrsg4bc","0kfn882lqiqq0w7h71h4","95f2vidvq2lzypz33dtd","a0g7wwepgncv7i6se3t1"]}
+{
+    "firstName": "Md.",
+    "lastName": "Hossain",
+    "password": "123456",
+    "hashPass": "088b35ff75eb956aeed6b4ae761a627f5f5100d6dcd5f972adee9920e204dd7f",
+    "tosagreement": true,
+    "checks": []
+}
