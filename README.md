@@ -1,5 +1,5 @@
 # Restful-Api-Aith-Raw-NodeJS
-Build applications in raw NodeJs with no frameworks, and no external libraries 🔥
+Built applications in raw NodeJs with no frameworks, and no external libraries 🔥
 
 
 # Building a CLI
